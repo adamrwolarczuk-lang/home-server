@@ -115,5 +115,86 @@
     "port": 8384,
     "scheme": "http",
     "use": "Pair trusted devices, then choose exactly which folders each device may access."
+  },
+  {
+    "description": "Monitor CPU, memory, disks, temperatures and containers over time.",
+    "name": "Beszel",
+    "port": 8090,
+    "id": "beszel",
+    "category": "Management",
+    "use": "Open Beszel to review hardware history, container usage and server alerts.",
+    "scheme": "http"
+  },
+  {
+    "description": "Create scheduled, encrypted backups of important server data.",
+    "name": "Duplicati",
+    "port": 8200,
+    "id": "duplicati",
+    "category": "Storage",
+    "use": "Choose the folders to protect, a separate backup destination and a schedule.",
+    "scheme": "http"
+  },
+  {
+    "description": "Stream your personal music collection to browsers and mobile apps.",
+    "name": "Navidrome",
+    "port": 4533,
+    "id": "navidrome",
+    "category": "Media",
+    "use": "Point Navidrome at your music folder, scan the library and connect a compatible player.",
+    "scheme": "http"
+  },
+  {
+    "description": "Organise audiobooks and podcasts while keeping listening progress.",
+    "name": "Audiobookshelf",
+    "port": 13378,
+    "id": "audiobookshelf",
+    "category": "Media",
+    "use": "Create libraries for audiobooks and podcasts, then connect the mobile application.",
+    "scheme": "http"
+  },
+  {
+    "description": "Reach your server remotely through a private encrypted network.",
+    "name": "Tailscale",
+    "port": null,
+    "id": "tailscale",
+    "category": "Security",
+    "use": "Sign in, approve the server and use its private Tailscale address while away from home.",
+    "scheme": null
+  },
+  {
+    "description": "Follow news sites and blogs without an algorithmic timeline.",
+    "name": "FreshRSS",
+    "port": 8084,
+    "id": "freshrss",
+    "category": "Other",
+    "use": "Add RSS feeds or import an OPML subscription file from another reader.",
+    "scheme": "http"
+  },
+  {
+    "description": "Manage a private envelope-style household budget.",
+    "name": "Actual Budget",
+    "port": 5006,
+    "id": "actual-budget",
+    "category": "Other",
+    "use": "Create a budget file, add accounts and allocate income to spending categories.",
+    "scheme": "http"
+  },
+  {
+    "description": "Save recipes, plan meals and build shopping lists.",
+    "name": "Mealie",
+    "port": 9925,
+    "id": "mealie",
+    "category": "Other",
+    "use": "Create a household, import recipes and use the weekly meal planner.",
+    "scheme": "http"
+  },
+  {
+    "description": "Host a private Minecraft world for friends and family.",
+    "name": "Minecraft Server",
+    "port": null,
+    "id": "minecraft",
+    "category": "Other",
+    "use": "Choose the game version, memory allowance, world settings and approved players.",
+    "scheme": null
   }
 ]

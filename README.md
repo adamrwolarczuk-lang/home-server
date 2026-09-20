@@ -1,84 +1,103 @@
-# AYVAtech Home Server Installer v2
+# AYVAtech Home Server v3 Beta
 
-Built for the **Tech Tips With Adam** old-PC home-server project.
+Turn an old Ubuntu, Zorin OS or compatible Debian-family computer into a home server with a guided installer and a live local dashboard at `http://homeserver.local`.
 
-## What it does
+## Download Beta 5
 
-- installs and enables OpenSSH Server
-- installs Docker Engine from Docker's official Ubuntu repository
-- installs Docker Compose
-- disables sleep/suspend
-- lets you choose which server apps to install
-- prints the Windows SSH command and app URLs when finished
+**[Download AYVAtech Home Server v3.0.0 Beta 5](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.5/AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb)**
 
-## Included apps
+Beta software is for testing on a spare computer. Keep important data backed up.
 
-- Portainer
-- Uptime Kuma
-- Jellyfin
-- File Browser
-- Home Assistant Container
+## What Beta 5 installs
 
-## Run it
+- Distribution and hardware compatibility checks
+- Docker Engine and Docker Compose
+- SSH remote access
+- Always-on server settings
+- `homeserver.local` local network naming
+- Live AYVAtech dashboard
+- CPU, memory, storage, temperature, uptime and service status
+- A searchable, categorized 22-application catalogue
+- Plain-English guidance for every application
+
+Beta 5 installs the server foundation and dashboard. The application catalogue is visible and documented, but the expanded optional applications are not all installable from the dashboard yet. That app-management workflow is the next v3 phase.
+
+## Application catalogue
+
+### Core
+
+- **Docker** — runs server applications in isolated containers.
+- **SSH** — manages the server remotely from another computer.
+- **Always-on mode** — prevents sleep and suspend.
+- **AYVAtech Dashboard** — the everyday home screen at `homeserver.local`.
+
+### Management
+
+- **Portainer** — advanced visual Docker management.
+- **Uptime Kuma** — device and website availability monitoring.
+- **Beszel** — lightweight CPU, memory, disk, temperature and container monitoring.
+
+### Storage and backup
+
+- **File Browser** — browser-based file management.
+- **Samba** — Windows network shares available through `\\homeserver`.
+- **Syncthing** — direct folder synchronisation between trusted devices.
+- **Nextcloud** — private files, calendars, contacts and sharing.
+- **Duplicati** — scheduled encrypted backups.
+
+### Media
+
+- **Jellyfin** — personal movie, television and music streaming.
+- **Navidrome** — personal music streaming.
+- **Audiobookshelf** — audiobooks, podcasts and listening progress.
+
+### Photos and documents
+
+- **Immich** — automatic phone photo and video backup.
+- **Paperless-ngx** — searchable scanned-document archive.
+
+### Home and network
+
+- **Home Assistant** — local smart-home control and automation.
+- **AdGuard Home** — network-wide advertising and tracker filtering.
+
+### Security and remote access
+
+- **Tailscale** — encrypted remote access without forwarding application ports.
+- **Vaultwarden** — Bitwarden-compatible family password vault.
+
+### Other useful tools
+
+- **FreshRSS** — private RSS news reader.
+- **Actual Budget** — private envelope-style household budgeting.
+- **Mealie** — recipes, meal planning and shopping lists.
+- **Minecraft Server** — a private game world for friends and family.
+
+## Install on Zorin when Software authentication fails
+
+If Zorin Software reports incorrect permissions for `polkit-agent-helper-1`, install Beta 5 from Terminal instead:
 
 ```bash
-chmod +x install.sh
-sudo ./install.sh
+cd ~/Downloads
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb
 ```
 
-From Windows Terminal after setup:
+Beta 5 uses terminal `sudo` authentication after package installation and does not depend on PolicyKit for the AYVAtech setup.
 
-```powershell
-ssh YOUR-USERNAME@SERVER-IP
+## Supported systems
+
+The preflight detects Ubuntu, Zorin OS, Linux Mint, Pop!_OS, elementary OS, Debian and compatible Ubuntu/Debian derivatives. It determines the correct Docker repository and stops before making changes when the platform, architecture, RAM or free storage is unsuitable.
+
+## After installation
+
+Open:
+
+```text
+http://homeserver.local
 ```
 
-## Addresses
+The dashboard shows what is installed, whether it is running, how to open it and how to start using it.
 
-- Portainer: `https://SERVER-IP:9443`
-- Uptime Kuma: `http://SERVER-IP:3001`
-- Jellyfin: `http://SERVER-IP:8096`
-- File Browser: `http://SERVER-IP:8080`
-- Home Assistant: `http://SERVER-IP:8123`
+## Security
 
-## Important
-
-The script does not force a static IP. For a beginner setup, reserve the server's IP in the home router.
-
-Do not forward these application ports directly to the public internet.
-
-Home Assistant here is **Home Assistant Container**, not Home Assistant OS, so it does not include the HA OS apps/add-ons system.
-
-## Helper commands
-
-```bash
-sudo /opt/ayvatech-home-server/status.sh
-sudo /opt/ayvatech-home-server/update.sh
-```
-
-## App Center says “incorrect permissions”
-
-If Ubuntu displays **Authentication Required** followed by an error saying that `polkit-agent-helper-1` needs to be setuid root, Ubuntu's administrator-authentication service has incorrect permissions. This is an Ubuntu PolicyKit problem rather than an AYVAtech installer failure.
-
-Close App Center, open Terminal with **Ctrl + Alt + T**, and run:
-
-```bash
-sudo apt update
-sudo apt install --reinstall polkitd pkexec policykit-1
-sudo systemctl restart polkit
-```
-
-Check the repaired helper:
-
-```bash
-stat -c '%U %G %a %n' /usr/lib/polkit-1/polkit-agent-helper-1
-```
-
-It should report `root root 4755`. If it does not, run:
-
-```bash
-sudo chown root:root /usr/lib/polkit-1/polkit-agent-helper-1
-sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
-sudo reboot
-```
-
-After restarting, double-click the AYVAtech `.deb` file again.
+Do not forward application ports directly to the internet. Use a secure remote-access tool such as Tailscale, keep the system updated and maintain backups of important application data.
