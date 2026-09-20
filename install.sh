@@ -6,7 +6,10 @@ USER_NAME="${AYVATECH_CALLING_USER:-${SUDO_USER:-$USER}}"
 log=/var/log/ayvatech-home-server-install.log
 exec > >(tee -a "$log") 2>&1
 step(){ echo "[$1/7] $2"; }
-. /etc/os-release; [[ "${ID:-}" == ubuntu ]] || { echo "Ubuntu is required."; exit 1; }
+. /etc/os-release; case "${ID:-}" in
+  ubuntu|zorin) ;;
+  *) [[ " ${ID_LIKE:-} " == *" ubuntu "* ]] || { echo "Ubuntu or an Ubuntu-based distribution is required."; exit 1; } ;;
+esac
 step 1 "Updating Ubuntu"; apt-get update
 step 2 "Installing remote access, local naming and web services"
 DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl gnupg openssh-server avahi-daemon nginx python3
