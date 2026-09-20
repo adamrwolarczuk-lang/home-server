@@ -1,17 +1,20 @@
 # AYVAtech Home Server
 
-> **Current development release:** [v3.0.0 Beta 5](https://github.com/adamrwolarczuk-lang/home-server/releases/tag/v3.0.0-beta.5)  
+> **Current development release:** [v3.0.0 Beta 6](https://github.com/adamrwolarczuk-lang/home-server/releases/tag/v3.0.0-beta.6)  
 > **Earlier stable release:** [v2.1.0](https://github.com/adamrwolarczuk-lang/home-server/releases/tag/v2.1.0)
+
 
 Turn an old Ubuntu, Zorin OS or compatible Debian-family computer into a home server with a guided installer and a live local dashboard at `http://homeserver.local`.
 
-## Download Beta 5
+## Download Beta 6
 
-**[Download AYVAtech Home Server v3.0.0 Beta 5](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.5/AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb)**
+**[Download AYVAtech Home Server v3.0.0 Beta 6](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.6/AYVAtech-Home-Server-Installer-3.0.0-beta.6.deb)**
 
 Beta software is for testing on a spare computer. Keep important data backed up.
 
-## What Beta 5 installs
+After package installation, open the Zorin/Ubuntu application menu and search for **AYVAtech Home Server Installer**. You can also start it from Terminal with `ayvatech-home-server-installer`.
+
+## What Beta 6 installs
 
 - Distribution and hardware compatibility checks
 - Docker Engine and Docker Compose
@@ -23,7 +26,7 @@ Beta software is for testing on a spare computer. Keep important data backed up.
 - A searchable, categorized 22-application catalogue
 - Plain-English guidance for every application
 
-Beta 5 installs the server foundation and dashboard. The application catalogue is visible and documented, but the expanded optional applications are not all installable from the dashboard yet. That app-management workflow is the next v3 phase.
+Beta 6 installs the server foundation and dashboard. The application catalogue is visible and documented, but the expanded optional applications are not all installable from the dashboard yet. That app-management workflow is the next v3 phase.
 
 ## Application catalogue
 
@@ -78,14 +81,14 @@ Beta 5 installs the server foundation and dashboard. The application catalogue i
 
 ## Install on Zorin when Software authentication fails
 
-If Zorin Software reports incorrect permissions for `polkit-agent-helper-1`, install Beta 5 from Terminal instead:
+If Zorin Software reports incorrect permissions for `polkit-agent-helper-1`, install Beta 6 from Terminal instead:
 
 ```bash
 cd ~/Downloads
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.6.deb
 ```
 
-Beta 5 uses terminal `sudo` authentication after package installation and does not depend on PolicyKit for the AYVAtech setup.
+Beta 6 uses terminal `sudo` authentication after package installation and does not depend on PolicyKit for the AYVAtech setup.
 
 ## Supported systems
 
