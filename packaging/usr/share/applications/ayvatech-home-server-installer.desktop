@@ -1,12 +1,12 @@
 [Desktop Entry]
 Type=Application
-Name=AYVAtech Home Server Installer
-GenericName=Home Server Setup
-Comment=Install and configure your AYVAtech home server
+Name=AYVAtech Home Server Status
+GenericName=Home Server Status
+Comment=View AYVAtech installation progress and open your dashboard
 Exec=/usr/bin/ayvatech-home-server-installer
 TryExec=/usr/bin/ayvatech-home-server-installer
 Icon=ayvatech-home-server
-Terminal=true
+Terminal=false
 StartupNotify=true
 Categories=System;Settings;Utility;
-Keywords=server;docker;jellyfin;portainer;home assistant;ayvatech;
+Keywords=server;status;docker;dashboard;ayvatech;

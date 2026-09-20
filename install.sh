@@ -91,6 +91,8 @@ nginx -t
 systemctl restart nginx
 
 step 7 "Finishing setup"
+install -d -m0755 /opt/ayvatech-home-server
+touch /opt/ayvatech-home-server/.foundation-installed
 ip="$(hostname -I | awk '{print $1}')"
 echo "AYVAtech Home Server is ready on ${PRETTY_NAME:-Linux}"
 echo "Open: http://homeserver.local"

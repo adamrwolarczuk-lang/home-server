@@ -1,12 +1,11 @@
 #!/bin/sh
 set -e
-if command -v update-desktop-database >/dev/null 2>&1; then
-  update-desktop-database /usr/share/applications || true
-fi
-if command -v gtk-update-icon-cache >/dev/null 2>&1; then
-  gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
-fi
-printf '\nAYVAtech Home Server Installer is installed.\n'
-printf 'Open the application menu and search for: AYVAtech Home Server Installer\n'
-printf 'Or run from Terminal: ayvatech-home-server-installer\n\n'
+if command -v update-desktop-database >/dev/null 2>&1; then update-desktop-database /usr/share/applications || true; fi
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true; fi
+systemctl daemon-reload || true
+systemctl enable ayvatech-bootstrap.service || true
+systemctl start --no-block ayvatech-bootstrap.service || true
+printf '\nAYVAtech full server setup has started automatically.\n'
+printf 'Open AYVAtech Home Server Status from the application menu to follow progress.\n'
+printf 'Installation log: /var/log/ayvatech-home-server-install.log\n\n'
 exit 0
