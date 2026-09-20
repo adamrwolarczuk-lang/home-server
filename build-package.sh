@@ -14,5 +14,5 @@ install -m0644 "$ROOT/packaging/etc/nginx/sites-available/ayvatech-dashboard" "$
 find "$BUILD" -type d -exec chmod 0755 {} +
 chmod 0755 "$BUILD/usr/bin/ayvatech-home-server-installer"
 chmod 0644 "$BUILD/usr/share/applications/ayvatech-home-server-installer.desktop" "$BUILD/etc/nginx/sites-available/ayvatech-dashboard" "$BUILD/lib/systemd/system/ayvatech-dashboard.service"
-dpkg-deb --root-owner-group --build "$BUILD" "$DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.3.deb"
-echo "Built: $DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.3.deb"
+dpkg-deb --root-owner-group --build "$BUILD" "$DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.4.deb"
+echo "Built: $DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.4.deb"

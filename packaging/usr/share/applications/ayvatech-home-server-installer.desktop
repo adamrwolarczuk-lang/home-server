@@ -4,6 +4,6 @@
 +Comment=Build and configure an AYVAtech home server
 +Exec=/usr/bin/ayvatech-home-server-installer
 +Icon=computer
-+Terminal=false
++Terminal=true
 +Categories=System;Settings;
 +
