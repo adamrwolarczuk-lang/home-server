@@ -8,7 +8,7 @@ Turn an old Ubuntu, Zorin OS or compatible Debian-family computer into a home se
 
 Beta software is for testing on a spare computer. Keep important data backed up.
 
-After package installation, open the Zorin/Ubuntu application menu and search for **AYVAtech Home Server Installer**. You can also start it from Terminal with `ayvatech-home-server-installer`.
+When the package finishes installing, the same command immediately launches **AYVAtech Home Server Installer**. You can reopen it later from the application menu.
 
 ## What Beta 6 installs
 
@@ -81,7 +81,7 @@ If Zorin Software reports incorrect permissions for `polkit-agent-helper-1`, ins
 
 ```bash
 cd ~/Downloads
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.6.deb
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.6.deb && ayvatech-home-server-installer
 ```
 
 Beta 6 uses terminal `sudo` authentication after package installation and does not depend on PolicyKit for the AYVAtech setup.
