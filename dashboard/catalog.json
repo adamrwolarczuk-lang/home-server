@@ -1,0 +1,119 @@
+[
+  {
+    "id": "portainer",
+    "name": "Portainer",
+    "category": "Management",
+    "description": "Manage Docker containers visually.",
+    "port": 9443,
+    "scheme": "https",
+    "use": "Open Portainer for advanced container settings, logs and maintenance."
+  },
+  {
+    "id": "uptime-kuma",
+    "name": "Uptime Kuma",
+    "category": "Management",
+    "description": "Monitor whether devices and websites are online.",
+    "port": 3001,
+    "scheme": "http",
+    "use": "Add the addresses you rely on and choose how often Uptime Kuma should check them."
+  },
+  {
+    "id": "jellyfin",
+    "name": "Jellyfin",
+    "category": "Media",
+    "description": "Stream your own movies, television and music.",
+    "port": 8096,
+    "scheme": "http",
+    "use": "Add media to /opt/ayvatech-home-server/data/jellyfin/media, then create libraries in Jellyfin."
+  },
+  {
+    "id": "filebrowser",
+    "name": "File Browser",
+    "category": "Storage",
+    "description": "Manage server files from a web browser.",
+    "port": 8080,
+    "scheme": "http",
+    "use": "Use this for quick uploads, folders and downloads on your home network."
+  },
+  {
+    "id": "homeassistant",
+    "name": "Home Assistant",
+    "category": "Home",
+    "description": "Control and automate compatible smart-home devices.",
+    "port": 8123,
+    "scheme": "http",
+    "use": "Create your owner account, then add devices from Settings → Devices & services."
+  },
+  {
+    "id": "homepage",
+    "name": "AYVAtech Dashboard",
+    "category": "Core",
+    "description": "Your home-server control centre.",
+    "port": 80,
+    "scheme": "http",
+    "use": "Start here whenever you want to open an app or check server health."
+  },
+  {
+    "id": "samba",
+    "name": "Windows File Share",
+    "category": "Storage",
+    "description": "Open shared server folders from Windows Explorer.",
+    "port": null,
+    "scheme": null,
+    "use": "In Windows Explorer, enter \\\\\\\\homeserver to see available shared folders."
+  },
+  {
+    "id": "immich",
+    "name": "Immich",
+    "category": "Photos",
+    "description": "Back up and organise phone photos locally.",
+    "port": 2283,
+    "scheme": "http",
+    "use": "Install the Immich mobile app and point it to this server address."
+  },
+  {
+    "id": "nextcloud",
+    "name": "Nextcloud",
+    "category": "Storage",
+    "description": "Run a private cloud for files, calendars and contacts.",
+    "port": 8082,
+    "scheme": "http",
+    "use": "Create the administrator account, then install desktop or mobile sync clients."
+  },
+  {
+    "id": "paperless",
+    "name": "Paperless-ngx",
+    "category": "Documents",
+    "description": "Turn scanned paperwork into a searchable archive.",
+    "port": 8000,
+    "scheme": "http",
+    "use": "Upload PDFs or place documents in its consume folder for automatic processing."
+  },
+  {
+    "id": "adguard",
+    "name": "AdGuard Home",
+    "category": "Network",
+    "description": "Block advertising and trackers across the home network.",
+    "port": 3000,
+    "scheme": "http",
+    "use": "Complete its setup wizard, then configure your router to use this server for DNS."
+  },
+  {
+    "id": "vaultwarden",
+    "name": "Vaultwarden",
+    "category": "Security",
+    "description": "Host a Bitwarden-compatible family password vault.",
+    "port": 8083,
+    "scheme": "http",
+    "use": "Configure secure remote access and backups before relying on it for passwords."
+  },
+  {
+    "id": "syncthing",
+    "name": "Syncthing",
+    "category": "Storage",
+    "description": "Keep selected folders synchronised between computers.",
+    "port": 8384,
+    "scheme": "http",
+    "use": "Pair trusted devices, then choose exactly which folders each device may access."
+  }
+]

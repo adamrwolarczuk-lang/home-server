@@ -1,0 +1,17 @@
+[Unit]
+Description=AYVAtech Home Server Dashboard
+After=network-online.target docker.service
+Wants=network-online.target
+[Service]
+Type=simple
+User=ayvatech-dashboard
+Group=docker
+ExecStart=/usr/bin/python3 /usr/lib/ayvatech-dashboard/server.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
