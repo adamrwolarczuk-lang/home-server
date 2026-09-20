@@ -1,9 +1,12 @@
 [Desktop Entry]
-+Type=Application
-+Name=AYVAtech Home Server Installer
-+Comment=Build and configure an AYVAtech home server
-+Exec=/usr/bin/ayvatech-home-server-installer
-+Icon=computer
-+Terminal=true
-+Categories=System;Settings;
-+
+Type=Application
+Name=AYVAtech Home Server Installer
+GenericName=Home Server Setup
+Comment=Install and configure your AYVAtech home server
+Exec=/usr/bin/ayvatech-home-server-installer
+TryExec=/usr/bin/ayvatech-home-server-installer
+Icon=ayvatech-home-server
+Terminal=true
+StartupNotify=true
+Categories=System;Settings;Utility;
+Keywords=server;docker;jellyfin;portainer;home assistant;ayvatech;

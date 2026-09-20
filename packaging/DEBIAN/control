@@ -1,9 +1,9 @@
 Package: ayvatech-home-server-installer
-Version: 3.0.0-beta.5
+Version: 3.0.0-beta.6
 Section: admin
 Priority: optional
 Architecture: all
-Depends: bash, zenity, sudo, python3, nginx, avahi-daemon
+Depends: bash, zenity, sudo, desktop-file-utils, python3, nginx, avahi-daemon
 Maintainer: AYVAtech
 Description: Guided AYVAtech home server installer for Ubuntu and Zorin OS
  Installs Docker, SSH, local naming, always-on settings and the live dashboard.
