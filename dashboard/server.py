@@ -35,6 +35,7 @@ def status():
     for app in CATALOG:
         names=[n for n in active if app["id"] in n or app["id"].replace("-","") in n.replace("-","")]
         if app["id"]=="homepage": state="running"
+        elif app["id"]=="living-room": state="installed" if Path("/opt/ayvatech-home-server/.living-room-installed").exists() else "not installed"
         elif app["id"]=="samba": state="running" if run("systemctl","is-active","smbd")=="active" else "not installed"
         elif names: state="running" if any(active[n]["state"]=="running" for n in names) else "stopped"
         else: state="not installed"

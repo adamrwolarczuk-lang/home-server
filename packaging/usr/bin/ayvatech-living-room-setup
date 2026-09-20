@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+echo "AYVAtech Living Room Mode"
+echo
+echo "This optional setup installs:"
+echo "  - Jellyfin Server for your personal media library"
+echo "  - Jellyfin Desktop for a controller-friendly TV interface"
+echo "  - VLC for physical DVD playback"
+echo
+read -r -p "Install Living Room Mode? [y/N] " answer
+[[ "$answer" =~ ^[Yy]$ ]] || exit 0
+args=()
+read -r -p "Start Jellyfin Desktop automatically when you sign in? [y/N] " answer
+[[ "$answer" =~ ^[Yy]$ ]] && args+=(--autostart)
+sudo env AYVATECH_CALLING_USER="$(id -un)" /usr/lib/ayvatech-home-server-installer/scripts/install-living-room.sh "${args[@]}"
+echo
+read -r -p "Press Enter to close..." _

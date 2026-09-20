@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=AYVAtech Living Room Mode Setup
+GenericName=TV and DVD Setup
+Comment=Install the optional Jellyfin TV interface and VLC DVD player
+Exec=/usr/bin/ayvatech-living-room-setup
+Icon=ayvatech-home-server
+Terminal=true
+StartupNotify=true
+Categories=AudioVideo;System;Utility;
+Keywords=jellyfin;television;tv;dvd;vlc;remote;controller;ayvatech;

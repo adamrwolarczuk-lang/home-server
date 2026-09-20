@@ -196,5 +196,14 @@
     "category": "Other",
     "use": "Choose the game version, memory allowance, world settings and approved players.",
     "scheme": null
+  },
+  {
+    "id": "living-room",
+    "name": "Living Room Mode",
+    "category": "Media",
+    "description": "Use this computer under a television with Jellyfin TV mode and VLC DVD playback.",
+    "port": null,
+    "scheme": null,
+    "use": "Open AYVAtech Living Room Mode Setup from the application menu. Connect Jellyfin Desktop to http://homeserver.local:8096 and use VLC for physical DVDs."
   }
 ]

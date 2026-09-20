@@ -12,7 +12,7 @@ install -m0755 "$ROOT/dashboard/server.py" "$BUILD/usr/lib/ayvatech-home-server-
 install -m0644 "$ROOT/packaging/lib/systemd/system/ayvatech-dashboard.service" "$BUILD/usr/lib/ayvatech-home-server-installer/config/ayvatech-dashboard.service"
 install -m0644 "$ROOT/packaging/etc/nginx/sites-available/ayvatech-dashboard" "$BUILD/usr/lib/ayvatech-home-server-installer/config/ayvatech-dashboard.nginx"
 find "$BUILD" -type d -exec chmod 0755 {} +
-chmod 0755 "$BUILD/usr/bin/ayvatech-home-server-installer" "$BUILD/DEBIAN/postinst" "$BUILD/DEBIAN/postrm"
-chmod 0644 "$BUILD/usr/share/applications/ayvatech-home-server-installer.desktop" "$BUILD/etc/nginx/sites-available/ayvatech-dashboard" "$BUILD/lib/systemd/system/ayvatech-dashboard.service" "$BUILD/lib/systemd/system/ayvatech-bootstrap.service" "$BUILD/usr/share/icons/hicolor/scalable/apps/ayvatech-home-server.svg"
-dpkg-deb --root-owner-group --build "$BUILD" "$DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.7.deb"
-echo "Built: $DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.7.deb"
+chmod 0755 "$BUILD/usr/bin/ayvatech-home-server-installer" "$BUILD/usr/bin/ayvatech-living-room-setup" "$BUILD/DEBIAN/postinst" "$BUILD/DEBIAN/postrm"
+chmod 0644 "$BUILD/usr/share/applications/ayvatech-home-server-installer.desktop" "$BUILD/usr/share/applications/ayvatech-living-room-setup.desktop" "$BUILD/etc/nginx/sites-available/ayvatech-dashboard" "$BUILD/lib/systemd/system/ayvatech-dashboard.service" "$BUILD/lib/systemd/system/ayvatech-bootstrap.service" "$BUILD/usr/share/icons/hicolor/scalable/apps/ayvatech-home-server.svg"
+dpkg-deb --root-owner-group --build "$BUILD" "$DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.8.deb"
+echo "Built: $DIST/AYVAtech-Home-Server-Installer-3.0.0-beta.8.deb"
