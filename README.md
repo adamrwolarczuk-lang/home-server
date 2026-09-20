@@ -54,3 +54,31 @@ Home Assistant here is **Home Assistant Container**, not Home Assistant OS, so i
 sudo /opt/ayvatech-home-server/status.sh
 sudo /opt/ayvatech-home-server/update.sh
 ```
+
+## App Center says “incorrect permissions”
+
+If Ubuntu displays **Authentication Required** followed by an error saying that `polkit-agent-helper-1` needs to be setuid root, Ubuntu's administrator-authentication service has incorrect permissions. This is an Ubuntu PolicyKit problem rather than an AYVAtech installer failure.
+
+Close App Center, open Terminal with **Ctrl + Alt + T**, and run:
+
+```bash
+sudo apt update
+sudo apt install --reinstall polkitd pkexec policykit-1
+sudo systemctl restart polkit
+```
+
+Check the repaired helper:
+
+```bash
+stat -c '%U %G %a %n' /usr/lib/polkit-1/polkit-agent-helper-1
+```
+
+It should report `root root 4755`. If it does not, run:
+
+```bash
+sudo chown root:root /usr/lib/polkit-1/polkit-agent-helper-1
+sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
+sudo reboot
+```
+
+After restarting, double-click the AYVAtech `.deb` file again.
