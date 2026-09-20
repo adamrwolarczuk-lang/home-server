@@ -90,3 +90,30 @@ SHA-256 for version 2.1.0:
 ```text
 218e880c3735309e13fc8c7016d0369667f7e55ad8d71be78149c3b366138815
 ```
+## App Center says “incorrect permissions”
+
+If Ubuntu displays **Authentication Required** and says that `polkit-agent-helper-1` needs to be setuid root, Ubuntu's administrator-authentication service has incorrect permissions. This happens before the AYVAtech installer runs.
+
+Close App Center, open Terminal with **Ctrl + Alt + T**, and run:
+
+```bash
+sudo apt update
+sudo apt install --reinstall polkitd pkexec policykit-1
+sudo systemctl restart polkit
+```
+
+Check the repaired helper:
+
+```bash
+stat -c '%U %G %a %n' /usr/lib/polkit-1/polkit-agent-helper-1
+```
+
+It should report `root root 4755`. If it does not, run:
+
+```bash
+sudo chown root:root /usr/lib/polkit-1/polkit-agent-helper-1
+sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
+sudo reboot
+```
+
+After restarting, double-click the AYVAtech `.deb` file again.
