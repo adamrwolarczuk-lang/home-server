@@ -1,119 +1,106 @@
-# AYVAtech Home Server Installer
+# AYVAtech Home Server
 
-Turn an old PC into an easy-to-manage Ubuntu home server.
+> **Current development release:** [v3.0.0 Beta 5](https://github.com/adamrwolarczuk-lang/home-server/releases/tag/v3.0.0-beta.5)  
+> **Earlier stable release:** [v2.1.0](https://github.com/adamrwolarczuk-lang/home-server/releases/tag/v2.1.0)
 
-This guided installer sets up the essential server tools, explains what each component is for, and lets you choose the apps you want from a simple graphical screen. No Docker knowledge is required.
+Turn an old Ubuntu, Zorin OS or compatible Debian-family computer into a home server with a guided installer and a live local dashboard at `http://homeserver.local`.
 
-## Download
+## Download Beta 5
 
-**[Download AYVAtech Home Server Installer v2.1.0](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v2.1.0/AYVAtech-Home-Server-Installer-2.1.0.deb)**
+**[Download AYVAtech Home Server v3.0.0 Beta 5](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.5/AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb)**
 
-This installer is intended for **Ubuntu Desktop**. Use a freshly installed, supported Ubuntu release and make sure the computer has an internet connection.
+Beta software is for testing on a spare computer. Keep important data backed up.
 
-## How to install
+## What Beta 5 installs
 
-1. Download the `.deb` file using the button above.
-2. Open your **Downloads** folder.
-3. Double-click `AYVAtech-Home-Server-Installer-2.1.0.deb`.
-4. When Ubuntu App Center opens, select **Install**.
-5. Enter your Ubuntu password if requested.
-6. Open the applications menu and launch **AYVAtech Home Server Installer**.
-7. Read the app descriptions, choose what you want, and select **Install now**.
-8. Keep the installer open while it downloads and configures everything.
-9. Save the server IP address and web addresses shown on the completion screen.
+- Distribution and hardware compatibility checks
+- Docker Engine and Docker Compose
+- SSH remote access
+- Always-on server settings
+- `homeserver.local` local network naming
+- Live AYVAtech dashboard
+- CPU, memory, storage, temperature, uptime and service status
+- A searchable, categorized 22-application catalogue
+- Plain-English guidance for every application
 
-Installation normally takes around 10–30 minutes, depending on the computer and internet connection.
+Beta 5 installs the server foundation and dashboard. The application catalogue is visible and documented, but the expanded optional applications are not all installable from the dashboard yet. That app-management workflow is the next v3 phase.
 
-> If double-clicking the file does not open App Center, right-click it, choose **Open With**, and select **App Center**.
+## Application catalogue
 
-## What the installer configures
+### Core
 
-- **SSH** — manage the server remotely from another computer.
-- **Docker Engine** — run each server application in its own clean container.
-- **Docker Compose** — manage all selected applications together.
-- **Always-on mode** — prevent sleep and suspend so the server stays available.
-- **Status and update tools** — check and update the server with simple commands.
+- **Docker** — runs server applications in isolated containers.
+- **SSH** — manages the server remotely from another computer.
+- **Always-on mode** — prevents sleep and suspend.
+- **AYVAtech Dashboard** — the everyday home screen at `homeserver.local`.
 
-## Available applications
+### Management
 
-| Application | What it is used for | Address after installation |
-|---|---|---|
-| Portainer | Friendly Docker control panel | `https://SERVER-IP:9443` |
-| Uptime Kuma | Device and website availability monitoring | `http://SERVER-IP:3001` |
-| Jellyfin | Personal movie, TV and music streaming | `http://SERVER-IP:8096` |
-| File Browser | Browser-based server file management | `http://SERVER-IP:8080` |
-| Home Assistant Container | Smart-home control and automation | `http://SERVER-IP:8123` |
+- **Portainer** — advanced visual Docker management.
+- **Uptime Kuma** — device and website availability monitoring.
+- **Beszel** — lightweight CPU, memory, disk, temperature and container monitoring.
 
-The recommended starter selection is Portainer, Uptime Kuma, Jellyfin, and File Browser.
+### Storage and backup
+
+- **File Browser** — browser-based file management.
+- **Samba** — Windows network shares available through `\\homeserver`.
+- **Syncthing** — direct folder synchronisation between trusted devices.
+- **Nextcloud** — private files, calendars, contacts and sharing.
+- **Duplicati** — scheduled encrypted backups.
+
+### Media
+
+- **Jellyfin** — personal movie, television and music streaming.
+- **Navidrome** — personal music streaming.
+- **Audiobookshelf** — audiobooks, podcasts and listening progress.
+
+### Photos and documents
+
+- **Immich** — automatic phone photo and video backup.
+- **Paperless-ngx** — searchable scanned-document archive.
+
+### Home and network
+
+- **Home Assistant** — local smart-home control and automation.
+- **AdGuard Home** — network-wide advertising and tracker filtering.
+
+### Security and remote access
+
+- **Tailscale** — encrypted remote access without forwarding application ports.
+- **Vaultwarden** — Bitwarden-compatible family password vault.
+
+### Other useful tools
+
+- **FreshRSS** — private RSS news reader.
+- **Actual Budget** — private envelope-style household budgeting.
+- **Mealie** — recipes, meal planning and shopping lists.
+- **Minecraft Server** — a private game world for friends and family.
+
+## Install on Zorin when Software authentication fails
+
+If Zorin Software reports incorrect permissions for `polkit-agent-helper-1`, install Beta 5 from Terminal instead:
+
+```bash
+cd ~/Downloads
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.5.deb
+```
+
+Beta 5 uses terminal `sudo` authentication after package installation and does not depend on PolicyKit for the AYVAtech setup.
+
+## Supported systems
+
+The preflight detects Ubuntu, Zorin OS, Linux Mint, Pop!_OS, elementary OS, Debian and compatible Ubuntu/Debian derivatives. It determines the correct Docker repository and stops before making changes when the platform, architecture, RAM or free storage is unsuitable.
 
 ## After installation
 
-Connect from another computer:
+Open:
 
 ```text
-ssh YOUR-UBUNTU-USERNAME@SERVER-IP
+http://homeserver.local
 ```
 
-Check server status:
+The dashboard shows what is installed, whether it is running, how to open it and how to start using it.
 
-```bash
-sudo /opt/ayvatech-home-server/status.sh
-```
+## Security
 
-Update Ubuntu and the server applications:
-
-```bash
-sudo /opt/ayvatech-home-server/update.sh
-```
-
-## Important safety information
-
-- Do **not** forward these application ports directly to the public internet.
-- Reserve the server IP address in your router so its web addresses do not change.
-- Keep Ubuntu and the installed applications updated.
-- This installs **Home Assistant Container**, not Home Assistant OS, so it does not include the Home Assistant OS add-ons system.
-
-## Troubleshooting
-
-A detailed installation log is saved at:
-
-```text
-/var/log/ayvatech-home-server-install.log
-```
-
-When asking for help, include your Ubuntu version, the installation stage that failed, and the relevant error from this log.
-
-## Verify the download
-
-SHA-256 for version 2.1.0:
-
-```text
-218e880c3735309e13fc8c7016d0369667f7e55ad8d71be78149c3b366138815
-```
-## App Center says “incorrect permissions”
-
-If Ubuntu displays **Authentication Required** and says that `polkit-agent-helper-1` needs to be setuid root, Ubuntu's administrator-authentication service has incorrect permissions. This happens before the AYVAtech installer runs.
-
-Close App Center, open Terminal with **Ctrl + Alt + T**, and run:
-
-```bash
-sudo apt update
-sudo apt install --reinstall polkitd pkexec policykit-1
-sudo systemctl restart polkit
-```
-
-Check the repaired helper:
-
-```bash
-stat -c '%U %G %a %n' /usr/lib/polkit-1/polkit-agent-helper-1
-```
-
-It should report `root root 4755`. If it does not, run:
-
-```bash
-sudo chown root:root /usr/lib/polkit-1/polkit-agent-helper-1
-sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
-sudo reboot
-```
-
-After restarting, double-click the AYVAtech `.deb` file again.
+Do not forward application ports directly to the internet. Use a secure remote-access tool such as Tailscale, keep the system updated and maintain backups of important application data.
