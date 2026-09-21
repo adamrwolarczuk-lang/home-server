@@ -28,12 +28,12 @@
   },
   {
     "id": "filebrowser",
-    "name": "File Browser",
+    "name": "FileBrowser Quantum",
     "category": "Storage",
-    "description": "Manage server files from a web browser.",
+    "description": "Manage server files through a maintained browser interface.",
     "port": 8080,
     "scheme": "http",
-    "use": "Use this for quick uploads, folders and downloads on your home network."
+    "use": "Sign in at port 8080, change the default admin password immediately, then add folders and users."
   },
   {
     "id": "homeassistant",
@@ -126,12 +126,12 @@
     "scheme": "http"
   },
   {
-    "description": "Create scheduled, encrypted backups of important server data.",
-    "name": "Duplicati",
-    "port": 8200,
-    "id": "duplicati",
+    "description": "Create verified, scheduled backups with Restic.",
+    "name": "Backrest + Restic",
+    "port": 9898,
+    "id": "backrest",
     "category": "Storage",
-    "use": "Choose the folders to protect, a separate backup destination and a schedule.",
+    "use": "Create the owner account, add a repository on separate storage, schedule backups and test a restore.",
     "scheme": "http"
   },
   {

@@ -36,9 +36,9 @@ case "${ID:-}" in
 esac
 [[ -n "$DOCKER_SUITE" ]] || fail "Could not determine the compatible Ubuntu/Debian base release."
 mem_kb="$(awk '/MemTotal/{print $2}' /proc/meminfo)"
-[[ "$mem_kb" -ge 1900000 ]] || fail "At least 2 GB RAM is required."
+[[ "$mem_kb" -ge 3800000 ]] || fail "Beta 10 requires at least 4 GB RAM for the automatic application stack."
 free_kb="$(df -Pk / | awk 'NR==2{print $4}')"
-[[ "$free_kb" -ge 10000000 ]] || fail "At least 10 GB free system storage is required."
+[[ "$free_kb" -ge 20000000 ]] || fail "Beta 10 requires at least 20 GB free system storage."
 echo "Detected: ${PRETTY_NAME:-$ID} ($arch)"
 echo "Package family: $DOCKER_FAMILY $DOCKER_SUITE"
 echo "Memory: $((mem_kb/1024)) MB; free system storage: $((free_kb/1024/1024)) GB"
@@ -90,13 +90,19 @@ SERVER_ROOT=/opt/ayvatech-home-server
 USER_GROUP="$(id -gn "$USER_NAME")"
 install -d -m0755 "$SERVER_ROOT"
 install -d -o "$USER_NAME" -g "$USER_GROUP" -m0755 \
-  "$SERVER_ROOT/data/jellyfin/config" \
-  "$SERVER_ROOT/data/jellyfin/cache" \
-  "$SERVER_ROOT/data/jellyfin/media" \
-  "$SERVER_ROOT/data/filebrowser/root" \
-  "$SERVER_ROOT/data/filebrowser/database" \
-  "$SERVER_ROOT/data/filebrowser/config"
-install -d -m0755 "$SERVER_ROOT/data/portainer" "$SERVER_ROOT/data/uptime-kuma" "$SERVER_ROOT/data/homeassistant"
+  "$SERVER_ROOT/data/jellyfin/config" "$SERVER_ROOT/data/jellyfin/cache" "$SERVER_ROOT/data/jellyfin/media" \
+  "$SERVER_ROOT/data/filebrowser/files" "$SERVER_ROOT/data/filebrowser/data" \
+  "$SERVER_ROOT/data/syncthing" \
+  "$SERVER_ROOT/data/navidrome/data" "$SERVER_ROOT/data/navidrome/music" \
+  "$SERVER_ROOT/data/audiobookshelf/config" "$SERVER_ROOT/data/audiobookshelf/metadata" \
+  "$SERVER_ROOT/data/audiobookshelf/audiobooks" "$SERVER_ROOT/data/audiobookshelf/podcasts"
+install -d -m0755 \
+  "$SERVER_ROOT/data/portainer" "$SERVER_ROOT/data/uptime-kuma" "$SERVER_ROOT/data/homeassistant" \
+  "$SERVER_ROOT/data/beszel" "$SERVER_ROOT/data/beszel-socket" \
+  "$SERVER_ROOT/data/backrest/data" "$SERVER_ROOT/data/backrest/config" "$SERVER_ROOT/data/backrest/cache" \
+  "$SERVER_ROOT/data/backrest/tmp" "$SERVER_ROOT/data/backrest/rclone" "$SERVER_ROOT/backups" \
+  "$SERVER_ROOT/data/freshrss/data" "$SERVER_ROOT/data/freshrss/extensions" \
+  "$SERVER_ROOT/data/actual-budget" "$SERVER_ROOT/data/mealie"
 install -m0644 "$SOURCE/docker-compose.yml" "$SERVER_ROOT/docker-compose.yml"
 cat >"$SERVER_ROOT/.env" <<EOF
 PUID=$(id -u "$USER_NAME")
@@ -105,7 +111,7 @@ TZ=$(timedatectl show --property=Timezone --value 2>/dev/null || echo UTC)
 EOF
 chmod 0644 "$SERVER_ROOT/.env"
 cd "$SERVER_ROOT"
-docker compose --profile portainer --profile uptime --profile jellyfin --profile files --profile homeassistant up -d
+docker compose up -d
 
 step 7 "Starting the local control centre"
 systemctl daemon-reload
@@ -119,7 +125,7 @@ for _ in $(seq 1 30); do
   sleep 2
 done
 curl -fsS http://127.0.0.1/health >/dev/null || fail "The dashboard health check did not respond."
-expected=(portainer uptime-kuma jellyfin filebrowser homeassistant)
+expected=(portainer uptime-kuma jellyfin filebrowser homeassistant beszel backrest syncthing navidrome audiobookshelf freshrss actual-budget mealie)
 running="$(docker compose ps --status running --services)"
 for service in "${expected[@]}"; do
   grep -qx "$service" <<<"$running" || fail "$service did not start. Check: docker compose logs $service"
@@ -127,7 +133,7 @@ done
 touch "$SERVER_ROOT/.foundation-installed"
 ip="$(hostname -I | awk '{print $1}')"
 echo "AYVAtech Home Server is ready on ${PRETTY_NAME:-Linux}"
-echo "Installed applications: Portainer, Uptime Kuma, Jellyfin, File Browser, Home Assistant"
+echo "Installed applications: 13 automatic application services are running"
 echo "Open dashboard: http://homeserver.local"
 echo "Backup address: http://$ip"
 echo "Detailed log: $log"

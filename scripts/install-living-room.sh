@@ -11,7 +11,7 @@ server_root=/opt/ayvatech-home-server
 
 command -v docker >/dev/null || { echo "Docker is not installed. Finish the main AYVAtech setup first."; exit 1; }
 cd "$server_root"
-docker compose --profile jellyfin up -d jellyfin
+docker compose up -d jellyfin
 echo "Installing VLC, Flatpak and the Jellyfin Desktop television client..."
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y flatpak vlc

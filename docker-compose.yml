@@ -2,59 +2,123 @@ services:
   portainer:
     image: portainer/portainer-ce:lts
     container_name: ayvatech-portainer
-    profiles: ["portainer"]
     restart: unless-stopped
-    ports:
-      - "9443:9443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/portainer:/data
+    ports: ["9443:9443"]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock", "./data/portainer:/data"]
 
   uptime-kuma:
     image: louislam/uptime-kuma:2
     container_name: ayvatech-uptime-kuma
-    profiles: ["uptime"]
     restart: unless-stopped
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./data/uptime-kuma:/app/data
+    ports: ["3001:3001"]
+    volumes: ["./data/uptime-kuma:/app/data"]
 
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: ayvatech-jellyfin
-    profiles: ["jellyfin"]
     restart: unless-stopped
     user: "${PUID}:${PGID}"
-    ports:
-      - "8096:8096/tcp"
-      - "7359:7359/udp"
+    ports: ["8096:8096/tcp", "7359:7359/udp"]
     volumes:
       - ./data/jellyfin/config:/config
       - ./data/jellyfin/cache:/cache
       - ./data/jellyfin/media:/media
 
   filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: ayvatech-filebrowser
-    profiles: ["files"]
+    image: gtstef/filebrowser:stable
+    container_name: ayvatech-filebrowser-quantum
     restart: unless-stopped
     user: "${PUID}:${PGID}"
-    ports:
-      - "8080:80"
+    ports: ["8080:80"]
     volumes:
-      - ./data/filebrowser/root:/srv
-      - ./data/filebrowser/database:/database
-      - ./data/filebrowser/config:/config
+      - ./data/filebrowser/files:/folder
+      - ./data/filebrowser/data:/home/filebrowser/data
 
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:stable
     container_name: ayvatech-homeassistant
-    profiles: ["homeassistant"]
     restart: unless-stopped
     network_mode: host
+    environment: ["TZ=${TZ}"]
+    volumes: ["./data/homeassistant:/config", "/run/dbus:/run/dbus:ro"]
+
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: ayvatech-beszel
+    restart: unless-stopped
+    environment: ["APP_URL=http://homeserver.local:8090"]
+    ports: ["8090:8090"]
+    volumes: ["./data/beszel:/beszel_data", "./data/beszel-socket:/beszel_socket"]
+
+  backrest:
+    image: ghcr.io/garethgeorge/backrest:latest
+    container_name: ayvatech-backrest
+    restart: unless-stopped
     environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
       - TZ=${TZ}
+    ports: ["9898:9898"]
     volumes:
-      - ./data/homeassistant:/config
-      - /run/dbus:/run/dbus:ro
+      - ./data/backrest/data:/data
+      - ./data/backrest/config:/config
+      - ./data/backrest/cache:/cache
+      - ./data/backrest/tmp:/tmp
+      - ./data/backrest/rclone:/root/.config/rclone
+      - ./data:/userdata:ro
+      - ./backups:/repos
+
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: ayvatech-syncthing
+    restart: unless-stopped
+    environment: ["PUID=${PUID}", "PGID=${PGID}"]
+    ports: ["8384:8384", "22000:22000/tcp", "22000:22000/udp", "21027:21027/udp"]
+    volumes: ["./data/syncthing:/var/syncthing"]
+
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: ayvatech-navidrome
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    environment: ["ND_SCANSCHEDULE=1h", "ND_LOGLEVEL=info"]
+    ports: ["4533:4533"]
+    volumes: ["./data/navidrome/data:/data", "./data/navidrome/music:/music:ro"]
+
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: ayvatech-audiobookshelf
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    environment: ["TZ=${TZ}"]
+    ports: ["13378:80"]
+    volumes:
+      - ./data/audiobookshelf/config:/config
+      - ./data/audiobookshelf/metadata:/metadata
+      - ./data/audiobookshelf/audiobooks:/audiobooks
+      - ./data/audiobookshelf/podcasts:/podcasts
+
+  freshrss:
+    image: freshrss/freshrss:latest
+    container_name: ayvatech-freshrss
+    restart: unless-stopped
+    environment: ["TZ=${TZ}", "CRON_MIN=3,33"]
+    ports: ["8084:80"]
+    volumes: ["./data/freshrss/data:/var/www/FreshRSS/data", "./data/freshrss/extensions:/var/www/FreshRSS/extensions"]
+
+  actual-budget:
+    image: actualbudget/actual-server:latest
+    container_name: ayvatech-actual-budget
+    restart: unless-stopped
+    ports: ["5006:5006"]
+    volumes: ["./data/actual-budget:/data"]
+
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:latest
+    container_name: ayvatech-mealie
+    restart: unless-stopped
+    environment: ["ALLOW_SIGNUP=false", "TZ=${TZ}", "BASE_URL=http://homeserver.local:9925"]
+    ports: ["9925:9000"]
+    volumes: ["./data/mealie:/app/data"]
