@@ -2,11 +2,11 @@
 
 Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server. Installing the `.deb` starts the full setup automatically.
 
-## Download Beta 11
+## Download Beta 12
 
-**[Download AYVAtech Home Server v3.0.0 Beta 11](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.11/AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb)**
+**[Download AYVAtech Home Server v3.0.0 Beta 12](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.12/AYVAtech-Home-Server-Installer-3.0.0-beta.12.deb)**
 
-Beta software is for testing on a spare computer. Back up important data first. Beta 11 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+Beta software is for testing on a spare computer. Back up important data first. Beta 12 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
 
 ## Install on Zorin OS or Ubuntu — complete copy-and-paste block
 
@@ -16,12 +16,12 @@ Copy the entire block below into Terminal. It downloads the current package, ins
 cd ~/Downloads
 sudo apt update
 sudo apt install -y curl
-curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.11/AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb
+curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.12/AYVAtech-Home-Server-Installer-3.0.0-beta.12.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.12.deb
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.12.deb
 ayvatech-home-server-installer
 ```
 
-Keep the progress window open. Downloading thirteen container images can take considerable time on the first installation. The window displays each of the eight installation stages and reports the log file if setup stops.
+Keep the progress window open. Downloading thirteen container images can take considerable time on the first installation. The window displays all eight stages plus each application as it downloads, starts, and passes its running check. If one application fails, the installer continues with the others and shows the failure details on screen.
 
 Use this Terminal method if Zorin Software reports a PolicyKit or `polkit-agent-helper-1` permission error.
 
@@ -33,7 +33,7 @@ ayvatech-home-server-installer
 
 ## Installed automatically
 
-Beta 11 installs, starts, and verifies these 13 application services:
+Beta 12 installs, starts, and verifies these 13 application services:
 
 - **Portainer** — Docker management — `https://homeserver.local:9443`
 - **Uptime Kuma** — availability monitoring — `http://homeserver.local:3001`
@@ -49,13 +49,13 @@ Beta 11 installs, starts, and verifies these 13 application services:
 - **Actual Budget** — household budgeting — `http://homeserver.local:5006`
 - **Mealie** — recipes and meal planning — `http://homeserver.local:9925`
 
-The AYVAtech dashboard, Docker, SSH, local network discovery, and always-on settings are installed as core services. Setup is marked complete only after the dashboard responds and all 13 application containers are running.
+The AYVAtech dashboard, Docker, SSH, local network discovery, and always-on settings are installed as core services. Each application is downloaded, started, and checked separately. A permanent result list is saved to `/var/lib/ayvatech-home-server/install-status.tsv`. Setup is marked complete only after the dashboard responds and all 13 application containers are running.
 
 Each application still needs its first-run owner account or choices. Change any supplied default password immediately. Configure Backrest to use separate backup storage and test a restore before relying on it.
 
 ## Added extras
 
-The dashboard explains these applications, but Beta 11 does not silently configure them because they require storage, security, network, account, or legal decisions:
+The dashboard explains these applications, but Beta 12 does not silently configure them because they require storage, security, network, account, or legal decisions:
 
 - Nextcloud
 - Immich
@@ -81,7 +81,7 @@ If local-name discovery is unavailable, use `http://127.0.0.1` on the server or 
 
 ## Updates
 
-Beta 11 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
+Beta 12 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
 
 ```bash
 sudo /usr/lib/ayvatech-home-server-installer/scripts/update.sh
