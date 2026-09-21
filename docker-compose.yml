@@ -45,6 +45,7 @@ services:
     volumes:
       - ./data/filebrowser/root:/srv
       - ./data/filebrowser/database:/database
+      - ./data/filebrowser/config:/config
 
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:stable

@@ -8,21 +8,10 @@ user_home="$(getent passwd "$user_name" | cut -d: -f6)"
 [[ -d "$user_home" ]] || { echo "Could not find the desktop user's home folder."; exit 1; }
 user_group="$(id -gn "$user_name")"
 server_root=/opt/ayvatech-home-server
-package_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 command -v docker >/dev/null || { echo "Docker is not installed. Finish the main AYVAtech setup first."; exit 1; }
-echo "Installing the Jellyfin server..."
-install -d -o "$user_name" -g "$user_group" -m0755 "$server_root/data/jellyfin/config" "$server_root/data/jellyfin/cache" "$server_root/data/jellyfin/media"
-install -m0644 "$package_root/docker-compose.yml" "$server_root/docker-compose.yml"
-cat >"$server_root/.env" <<EOF
-PUID=$(id -u "$user_name")
-PGID=$(id -g "$user_name")
-TZ=$(timedatectl show --property=Timezone --value 2>/dev/null || echo UTC)
-EOF
-chmod 0644 "$server_root/.env"
 cd "$server_root"
 docker compose --profile jellyfin up -d jellyfin
-
 echo "Installing VLC, Flatpak and the Jellyfin Desktop television client..."
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y flatpak vlc

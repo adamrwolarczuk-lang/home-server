@@ -4,7 +4,7 @@ if command -v update-desktop-database >/dev/null 2>&1; then update-desktop-datab
 if command -v gtk-update-icon-cache >/dev/null 2>&1; then gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true; fi
 systemctl daemon-reload || true
 systemctl enable ayvatech-bootstrap.service || true
-systemctl start --no-block ayvatech-bootstrap.service || true
+systemctl restart --no-block ayvatech-bootstrap.service || true
 printf '\nAYVAtech full server setup has started automatically.\n'
 printf 'Open AYVAtech Home Server Status from the application menu to follow progress.\n'
 printf 'Installation log: /var/log/ayvatech-home-server-install.log\n\n'

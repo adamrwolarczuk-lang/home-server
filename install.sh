@@ -5,7 +5,8 @@ SOURCE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 USER_NAME="${AYVATECH_CALLING_USER:-${SUDO_USER:-$USER}}"
 log=/var/log/ayvatech-home-server-install.log
 exec > >(tee -a "$log") 2>&1
-step(){ echo "[$1/7] $2"; }
+rm -f /opt/ayvatech-home-server/.foundation-installed
+step(){ echo "[$1/8] $2"; }
 fail(){ echo "Compatibility check failed: $*" >&2; exit 1; }
 
 step 1 "Checking this computer and detecting Linux"
@@ -84,17 +85,49 @@ install -m0644 "$SOURCE/config/ayvatech-dashboard.nginx" /etc/nginx/sites-availa
 ln -sf /etc/nginx/sites-available/ayvatech-dashboard /etc/nginx/sites-enabled/ayvatech-dashboard
 rm -f /etc/nginx/sites-enabled/default
 
-step 6 "Starting the local control centre"
+step 6 "Installing the starter application bundle"
+SERVER_ROOT=/opt/ayvatech-home-server
+USER_GROUP="$(id -gn "$USER_NAME")"
+install -d -m0755 "$SERVER_ROOT"
+install -d -o "$USER_NAME" -g "$USER_GROUP" -m0755 \
+  "$SERVER_ROOT/data/jellyfin/config" \
+  "$SERVER_ROOT/data/jellyfin/cache" \
+  "$SERVER_ROOT/data/jellyfin/media" \
+  "$SERVER_ROOT/data/filebrowser/root" \
+  "$SERVER_ROOT/data/filebrowser/database" \
+  "$SERVER_ROOT/data/filebrowser/config"
+install -d -m0755 "$SERVER_ROOT/data/portainer" "$SERVER_ROOT/data/uptime-kuma" "$SERVER_ROOT/data/homeassistant"
+install -m0644 "$SOURCE/docker-compose.yml" "$SERVER_ROOT/docker-compose.yml"
+cat >"$SERVER_ROOT/.env" <<EOF
+PUID=$(id -u "$USER_NAME")
+PGID=$(id -g "$USER_NAME")
+TZ=$(timedatectl show --property=Timezone --value 2>/dev/null || echo UTC)
+EOF
+chmod 0644 "$SERVER_ROOT/.env"
+cd "$SERVER_ROOT"
+docker compose --profile portainer --profile uptime --profile jellyfin --profile files --profile homeassistant up -d
+
+step 7 "Starting the local control centre"
 systemctl daemon-reload
 systemctl enable --now ayvatech-dashboard
 nginx -t
 systemctl restart nginx
 
-step 7 "Finishing setup"
-install -d -m0755 /opt/ayvatech-home-server
-touch /opt/ayvatech-home-server/.foundation-installed
+step 8 "Verifying the dashboard and installed applications"
+for _ in $(seq 1 30); do
+  curl -fsS http://127.0.0.1/health >/dev/null 2>&1 && break
+  sleep 2
+done
+curl -fsS http://127.0.0.1/health >/dev/null || fail "The dashboard health check did not respond."
+expected=(portainer uptime-kuma jellyfin filebrowser homeassistant)
+running="$(docker compose ps --status running --services)"
+for service in "${expected[@]}"; do
+  grep -qx "$service" <<<"$running" || fail "$service did not start. Check: docker compose logs $service"
+done
+touch "$SERVER_ROOT/.foundation-installed"
 ip="$(hostname -I | awk '{print $1}')"
 echo "AYVAtech Home Server is ready on ${PRETTY_NAME:-Linux}"
-echo "Open: http://homeserver.local"
+echo "Installed applications: Portainer, Uptime Kuma, Jellyfin, File Browser, Home Assistant"
+echo "Open dashboard: http://homeserver.local"
 echo "Backup address: http://$ip"
 echo "Detailed log: $log"

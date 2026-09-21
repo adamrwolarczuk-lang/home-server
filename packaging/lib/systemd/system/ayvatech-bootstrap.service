@@ -2,7 +2,6 @@
 Description=AYVAtech automatic first-time home server setup
 After=network-online.target
 Wants=network-online.target
-ConditionPathExists=!/opt/ayvatech-home-server/.foundation-installed
 [Service]
 Type=oneshot
 ExecStart=/usr/lib/ayvatech-home-server-installer/bootstrap.sh

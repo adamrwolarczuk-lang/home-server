@@ -16,7 +16,7 @@ fi
  while systemctl is-active --quiet ayvatech-bootstrap.service; do
    line="$(tail -n1 "$LOG" 2>/dev/null || true)"
    if [[ "$line" != "$last" ]]; then
-     case "$line" in *"[1/7]"*) n=8;;*"[2/7]"*) n=20;;*"[3/7]"*) n=36;;*"[4/7]"*) n=48;;*"[5/7]"*) n=72;;*"[6/7]"*) n=88;;*"[7/7]"*) n=96;;*) n=0;;esac
+     case "$line" in *"[1/8]"*) n=8;;*"[2/8]"*) n=20;;*"[3/8]"*) n=36;;*"[4/8]"*) n=48;;*"[5/8]"*) n=58;;*"[6/8]"*) n=72;;*"[7/8]"*) n=86;;*"[8/8]"*) n=96;;*) n=0;;esac
      [[ $n -gt 0 ]] && echo "$n"
      echo "# $line"; last="$line"
    fi
