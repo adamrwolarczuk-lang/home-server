@@ -1,18 +1,14 @@
 # AYVAtech Home Server
 
-Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server. Installing the `.deb` starts the full setup automatically.
+Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server using one visible shell installer. No `.deb` package is used.
 
-## Download Beta 14
+## Download Beta 15 — shell installer only
 
-**[Download AYVAtech Home Server v3.0.0 Beta 14](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb)**
+**[Download install-all.sh](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.15/install-all.sh)**
 
-Beta software is for testing on a spare computer. Back up important data first. Beta 14 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+Beta software is for testing on a spare computer. Back up important data first. Beta 15 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
 
-## Easiest option — download one installer file
-
-**[Download install-all.sh](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/install-all.sh)**
-
-Save it in Downloads, then copy and paste:
+Save `install-all.sh` in Downloads, then copy and paste:
 
 ```bash
 cd ~/Downloads
@@ -20,34 +16,22 @@ chmod +x install-all.sh
 sudo ./install-all.sh
 ```
 
-That one file checks the computer, downloads the current `.deb`, installs the core server, installs and verifies all 13 applications, prints live progress in Terminal, and leaves everything connected to the AYVAtech dashboard.
+The script does not install or download a Debian package. It downloads the AYVAtech project files directly from GitHub, installs the dashboard and maintenance tools, then installs and checks all 13 applications one by one while showing the complete output in Terminal.
 
-## Install on Zorin OS or Ubuntu — complete copy-and-paste block
-
-Copy the entire block below into Terminal. It downloads the current package, installs it, and automatically opens the live progress window so you can see every stage and the latest log message.
+If you prefer to download it from Terminal:
 
 ```bash
 cd ~/Downloads
-sudo apt update
-sudo apt install -y curl
-curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb
-ayvatech-home-server-installer
+curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.15/install-all.sh -o install-all.sh
+chmod +x install-all.sh
+sudo ./install-all.sh
 ```
 
-Keep the progress window open. Downloading thirteen container images can take considerable time on the first installation. The window displays all eight stages plus each application as it downloads, starts, and passes its running check. If one application fails, the installer continues with the others and shows the failure details on screen.
-
-Use this Terminal method if Zorin Software reports a PolicyKit or `polkit-agent-helper-1` permission error.
-
-If the progress window is closed accidentally, reopen **AYVAtech Home Server Status** from the application menu or run:
-
-```bash
-ayvatech-home-server-installer
-```
+Downloading the container images can take considerable time during the first installation. Leave Terminal open so you can see each step, success, or exact failure.
 
 ## Installed automatically
 
-Beta 14 installs, starts, and verifies these 13 application services:
+Beta 15 installs, starts, and verifies these 13 application services:
 
 - **Portainer** — Docker management — `https://homeserver.local:9443`
 - **Uptime Kuma** — availability monitoring — `http://homeserver.local:3001`
@@ -99,7 +83,7 @@ Each command downloads the current image, starts that application, waits for it 
 
 ## Added extras
 
-The dashboard explains these applications, but Beta 14 does not silently configure them because they require storage, security, network, account, or legal decisions:
+The dashboard explains these applications, but Beta 15 does not silently configure them because they require storage, security, network, account, or legal decisions:
 
 - Nextcloud
 - Immich
@@ -125,7 +109,7 @@ If local-name discovery is unavailable, use `http://127.0.0.1` on the server or 
 
 ## Updates
 
-Beta 14 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
+Beta 15 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
 
 ```bash
 sudo /usr/lib/ayvatech-home-server-installer/scripts/update.sh

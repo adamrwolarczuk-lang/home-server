@@ -36,9 +36,9 @@ case "${ID:-}" in
 esac
 [[ -n "$DOCKER_SUITE" ]] || fail "Could not determine the compatible Ubuntu/Debian base release."
 mem_kb="$(awk '/MemTotal/{print $2}' /proc/meminfo)"
-[[ "$mem_kb" -ge 3800000 ]] || fail "Beta 12 requires at least 4 GB RAM for the automatic application stack."
+[[ "$mem_kb" -ge 3800000 ]] || fail "Beta 15 requires at least 4 GB RAM for the automatic application stack."
 free_kb="$(df -Pk / | awk 'NR==2{print $4}')"
-[[ "$free_kb" -ge 20000000 ]] || fail "Beta 12 requires at least 20 GB free system storage."
+[[ "$free_kb" -ge 20000000 ]] || fail "Beta 15 requires at least 20 GB free system storage."
 echo "Detected: ${PRETTY_NAME:-$ID} ($arch)"
 echo "Package family: $DOCKER_FAMILY $DOCKER_SUITE"
 echo "Memory: $((mem_kb/1024)) MB; free system storage: $((free_kb/1024/1024)) GB"
