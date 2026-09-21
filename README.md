@@ -2,11 +2,25 @@
 
 Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server. Installing the `.deb` starts the full setup automatically.
 
-## Download Beta 13
+## Download Beta 14
 
-**[Download AYVAtech Home Server v3.0.0 Beta 13](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.13/AYVAtech-Home-Server-Installer-3.0.0-beta.13.deb)**
+**[Download AYVAtech Home Server v3.0.0 Beta 14](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb)**
 
-Beta software is for testing on a spare computer. Back up important data first. Beta 13 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+Beta software is for testing on a spare computer. Back up important data first. Beta 14 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+
+## Easiest option — download one installer file
+
+**[Download install-all.sh](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/install-all.sh)**
+
+Save it in Downloads, then copy and paste:
+
+```bash
+cd ~/Downloads
+chmod +x install-all.sh
+sudo ./install-all.sh
+```
+
+That one file checks the computer, downloads the current `.deb`, installs the core server, installs and verifies all 13 applications, prints live progress in Terminal, and leaves everything connected to the AYVAtech dashboard.
 
 ## Install on Zorin OS or Ubuntu — complete copy-and-paste block
 
@@ -16,8 +30,8 @@ Copy the entire block below into Terminal. It downloads the current package, ins
 cd ~/Downloads
 sudo apt update
 sudo apt install -y curl
-curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.13/AYVAtech-Home-Server-Installer-3.0.0-beta.13.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.13.deb
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.13.deb
+curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.14/AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.14.deb
 ayvatech-home-server-installer
 ```
 
@@ -33,7 +47,7 @@ ayvatech-home-server-installer
 
 ## Installed automatically
 
-Beta 13 installs, starts, and verifies these 13 application services:
+Beta 14 installs, starts, and verifies these 13 application services:
 
 - **Portainer** — Docker management — `https://homeserver.local:9443`
 - **Uptime Kuma** — availability monitoring — `http://homeserver.local:3001`
@@ -85,7 +99,7 @@ Each command downloads the current image, starts that application, waits for it 
 
 ## Added extras
 
-The dashboard explains these applications, but Beta 13 does not silently configure them because they require storage, security, network, account, or legal decisions:
+The dashboard explains these applications, but Beta 14 does not silently configure them because they require storage, security, network, account, or legal decisions:
 
 - Nextcloud
 - Immich
@@ -111,7 +125,7 @@ If local-name discovery is unavailable, use `http://127.0.0.1` on the server or 
 
 ## Updates
 
-Beta 13 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
+Beta 14 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
 
 ```bash
 sudo /usr/lib/ayvatech-home-server-installer/scripts/update.sh
