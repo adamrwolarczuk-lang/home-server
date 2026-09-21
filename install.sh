@@ -36,9 +36,9 @@ case "${ID:-}" in
 esac
 [[ -n "$DOCKER_SUITE" ]] || fail "Could not determine the compatible Ubuntu/Debian base release."
 mem_kb="$(awk '/MemTotal/{print $2}' /proc/meminfo)"
-[[ "$mem_kb" -ge 3800000 ]] || fail "Beta 10 requires at least 4 GB RAM for the automatic application stack."
+[[ "$mem_kb" -ge 3800000 ]] || fail "Beta 12 requires at least 4 GB RAM for the automatic application stack."
 free_kb="$(df -Pk / | awk 'NR==2{print $4}')"
-[[ "$free_kb" -ge 20000000 ]] || fail "Beta 10 requires at least 20 GB free system storage."
+[[ "$free_kb" -ge 20000000 ]] || fail "Beta 12 requires at least 20 GB free system storage."
 echo "Detected: ${PRETTY_NAME:-$ID} ($arch)"
 echo "Package family: $DOCKER_FAMILY $DOCKER_SUITE"
 echo "Memory: $((mem_kb/1024)) MB; free system storage: $((free_kb/1024/1024)) GB"
@@ -85,10 +85,13 @@ install -m0644 "$SOURCE/config/ayvatech-dashboard.nginx" /etc/nginx/sites-availa
 ln -sf /etc/nginx/sites-available/ayvatech-dashboard /etc/nginx/sites-enabled/ayvatech-dashboard
 rm -f /etc/nginx/sites-enabled/default
 
-step 6 "Installing the starter application bundle"
+step 6 "Installing and checking each application"
 SERVER_ROOT=/opt/ayvatech-home-server
+STATUS_FILE=/var/lib/ayvatech-home-server/install-status.tsv
 USER_GROUP="$(id -gn "$USER_NAME")"
 install -d -m0755 "$SERVER_ROOT"
+install -d -m0755 "$(dirname "$STATUS_FILE")"
+: >"$STATUS_FILE"
 install -d -o "$USER_NAME" -g "$USER_GROUP" -m0755 \
   "$SERVER_ROOT/data/jellyfin/config" "$SERVER_ROOT/data/jellyfin/cache" "$SERVER_ROOT/data/jellyfin/media" \
   "$SERVER_ROOT/data/filebrowser/files" "$SERVER_ROOT/data/filebrowser/data" \
@@ -111,7 +114,55 @@ TZ=$(timedatectl show --property=Timezone --value 2>/dev/null || echo UTC)
 EOF
 chmod 0644 "$SERVER_ROOT/.env"
 cd "$SERVER_ROOT"
-docker compose up -d
+apps=(
+  "portainer|Portainer"
+  "uptime-kuma|Uptime Kuma"
+  "jellyfin|Jellyfin"
+  "filebrowser|FileBrowser Quantum"
+  "homeassistant|Home Assistant"
+  "beszel|Beszel"
+  "backrest|Backrest"
+  "syncthing|Syncthing"
+  "navidrome|Navidrome"
+  "audiobookshelf|Audiobookshelf"
+  "freshrss|FreshRSS"
+  "actual-budget|Actual Budget"
+  "mealie|Mealie"
+)
+failed_apps=()
+app_total="${#apps[@]}"
+for i in "${!apps[@]}"; do
+  IFS='|' read -r service display_name <<<"${apps[$i]}"
+  app_number=$((i + 1))
+  progress=$((58 + (app_number * 27 / app_total)))
+  echo "[APP $app_number/$app_total $progress%] Installing $display_name"
+  if ! docker compose pull "$service"; then
+    echo "[APP $app_number/$app_total $progress%] FAILED $display_name - image download failed"
+    printf '%s\t%s\t%s\n' "$service" "$display_name" "FAILED: image download" >>"$STATUS_FILE"
+    failed_apps+=("$display_name")
+    continue
+  fi
+  if ! docker compose up -d --no-deps "$service"; then
+    echo "[APP $app_number/$app_total $progress%] FAILED $display_name - container creation failed"
+    printf '%s\t%s\t%s\n' "$service" "$display_name" "FAILED: container creation" >>"$STATUS_FILE"
+    failed_apps+=("$display_name")
+    continue
+  fi
+  app_running=false
+  for _ in $(seq 1 30); do
+    if docker compose ps --status running --services | grep -qx "$service"; then app_running=true; break; fi
+    sleep 2
+  done
+  if [[ "$app_running" == true ]]; then
+    echo "[APP $app_number/$app_total $progress%] OK $display_name is running"
+    printf '%s\t%s\t%s\n' "$service" "$display_name" "INSTALLED" >>"$STATUS_FILE"
+  else
+    echo "[APP $app_number/$app_total $progress%] FAILED $display_name - container did not stay running"
+    docker compose logs --tail=30 "$service" || true
+    printf '%s\t%s\t%s\n' "$service" "$display_name" "FAILED: not running" >>"$STATUS_FILE"
+    failed_apps+=("$display_name")
+  fi
+done
 
 step 7 "Starting the local control centre"
 systemctl daemon-reload
@@ -119,21 +170,23 @@ systemctl enable --now ayvatech-dashboard
 nginx -t
 systemctl restart nginx
 
-step 8 "Verifying the dashboard and installed applications"
+step 8 "Preparing the installation summary"
 for _ in $(seq 1 30); do
   curl -fsS http://127.0.0.1/health >/dev/null 2>&1 && break
   sleep 2
 done
 curl -fsS http://127.0.0.1/health >/dev/null || fail "The dashboard health check did not respond."
-expected=(portainer uptime-kuma jellyfin filebrowser homeassistant beszel backrest syncthing navidrome audiobookshelf freshrss actual-budget mealie)
-running="$(docker compose ps --status running --services)"
-for service in "${expected[@]}"; do
-  grep -qx "$service" <<<"$running" || fail "$service did not start. Check: docker compose logs $service"
-done
+if ((${#failed_apps[@]} > 0)); then
+  echo "INSTALLATION FINISHED WITH ERRORS"
+  echo "Installed successfully: $((app_total - ${#failed_apps[@]}))/$app_total"
+  echo "Failed applications: ${failed_apps[*]}"
+  echo "The successful applications remain installed and running. Retry setup after checking the messages above."
+  exit 1
+fi
 touch "$SERVER_ROOT/.foundation-installed"
 ip="$(hostname -I | awk '{print $1}')"
 echo "AYVAtech Home Server is ready on ${PRETTY_NAME:-Linux}"
-echo "Installed applications: 13 automatic application services are running"
+echo "INSTALLATION SUCCESSFUL: all $app_total applications are running"
 echo "Open dashboard: http://homeserver.local"
 echo "Backup address: http://$ip"
 echo "Detailed log: $log"

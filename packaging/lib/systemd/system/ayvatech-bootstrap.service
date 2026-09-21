@@ -5,7 +5,6 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/usr/lib/ayvatech-home-server-installer/bootstrap.sh
-RemainAfterExit=yes
 StandardOutput=append:/var/log/ayvatech-home-server-install.log
 StandardError=append:/var/log/ayvatech-home-server-install.log
 [Install]
