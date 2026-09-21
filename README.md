@@ -2,25 +2,38 @@
 
 Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server. Installing the `.deb` starts the full setup automatically.
 
-## Download Beta 10
+## Download Beta 11
 
-**[Download AYVAtech Home Server v3.0.0 Beta 10](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.10/AYVAtech-Home-Server-Installer-3.0.0-beta.10.deb)**
+**[Download AYVAtech Home Server v3.0.0 Beta 11](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.11/AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb)**
 
-Beta software is for testing on a spare computer. Back up important data first. Beta 10 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+Beta software is for testing on a spare computer. Back up important data first. Beta 11 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
 
-## Install on Zorin OS or Ubuntu
+## Install on Zorin OS or Ubuntu — complete copy-and-paste block
+
+Copy the entire block below into Terminal. It downloads the current package, installs it, and automatically opens the live progress window so you can see every stage and the latest log message.
 
 ```bash
 cd ~/Downloads
 sudo apt update
-sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.10.deb
+sudo apt install -y curl
+curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.11/AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb -o AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb
+sudo apt install ./AYVAtech-Home-Server-Installer-3.0.0-beta.11.deb
+ayvatech-home-server-installer
 ```
 
-Use Terminal if Zorin Software reports a PolicyKit or `polkit-agent-helper-1` permission error. Open **AYVAtech Home Server Status** from the application menu to follow all eight stages.
+Keep the progress window open. Downloading thirteen container images can take considerable time on the first installation. The window displays each of the eight installation stages and reports the log file if setup stops.
+
+Use this Terminal method if Zorin Software reports a PolicyKit or `polkit-agent-helper-1` permission error.
+
+If the progress window is closed accidentally, reopen **AYVAtech Home Server Status** from the application menu or run:
+
+```bash
+ayvatech-home-server-installer
+```
 
 ## Installed automatically
 
-Beta 10 installs, starts, and verifies these 13 application services:
+Beta 11 installs, starts, and verifies these 13 application services:
 
 - **Portainer** — Docker management — `https://homeserver.local:9443`
 - **Uptime Kuma** — availability monitoring — `http://homeserver.local:3001`
@@ -42,7 +55,7 @@ Each application still needs its first-run owner account or choices. Change any 
 
 ## Added extras
 
-The dashboard explains these applications, but Beta 10 does not silently configure them because they require storage, security, network, account, or legal decisions:
+The dashboard explains these applications, but Beta 11 does not silently configure them because they require storage, security, network, account, or legal decisions:
 
 - Nextcloud
 - Immich
@@ -68,7 +81,7 @@ If local-name discovery is unavailable, use `http://127.0.0.1` on the server or 
 
 ## Updates
 
-Beta 10 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
+Beta 11 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
 
 ```bash
 sudo /usr/lib/ayvatech-home-server-installer/scripts/update.sh

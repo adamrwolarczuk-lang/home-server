@@ -2,6 +2,7 @@
 set -Eeuo pipefail
 LOG=/var/log/ayvatech-home-server-install.log
 exec >>"$LOG" 2>&1
+rm -f /opt/ayvatech-home-server/.foundation-installed
 echo "Waiting for the package manager to finish..."
 for _ in $(seq 1 180); do
   if ! pgrep -x apt >/dev/null && ! pgrep -x apt-get >/dev/null && ! pgrep -x dpkg >/dev/null; then break; fi
