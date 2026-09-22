@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-VERSION=3.0.0-beta.15
+VERSION=3.0.0-beta.16
 ARCHIVE_URL="https://github.com/adamrwolarczuk-lang/home-server/archive/refs/tags/v${VERSION}.tar.gz"
 INSTALL_ROOT=/usr/lib/ayvatech-home-server-installer
 APPS=(

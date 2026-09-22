@@ -2,11 +2,11 @@
 
 Turn an Ubuntu, Zorin OS, or compatible Debian-family computer into a ready-to-configure home server using one visible shell installer. No `.deb` package is used.
 
-## Download Beta 15 — shell installer only
+## Download Beta 16 — shell installer only
 
-**[Download install-all.sh](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.15/install-all.sh)**
+**[Download install-all.sh](https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.16/install-all.sh)**
 
-Beta software is for testing on a spare computer. Back up important data first. Beta 15 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
+Beta software is for testing on a spare computer. Back up important data first. Beta 16 requires at least 4 GB RAM and 20 GB free system storage; 8 GB RAM is recommended.
 
 Save `install-all.sh` in Downloads, then copy and paste:
 
@@ -22,7 +22,7 @@ If you prefer to download it from Terminal:
 
 ```bash
 cd ~/Downloads
-curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.15/install-all.sh -o install-all.sh
+curl -fL https://github.com/adamrwolarczuk-lang/home-server/releases/download/v3.0.0-beta.16/install-all.sh -o install-all.sh
 chmod +x install-all.sh
 sudo ./install-all.sh
 ```
@@ -31,7 +31,7 @@ Downloading the container images can take considerable time during the first ins
 
 ## Installed automatically
 
-Beta 15 installs, starts, and verifies these 13 application services:
+Beta 16 installs, starts, and verifies these 13 application services:
 
 - **Portainer** — Docker management — `https://homeserver.local:9443`
 - **Uptime Kuma** — availability monitoring — `http://homeserver.local:3001`
@@ -83,7 +83,7 @@ Each command downloads the current image, starts that application, waits for it 
 
 ## Added extras
 
-The dashboard explains these applications, but Beta 15 does not silently configure them because they require storage, security, network, account, or legal decisions:
+The dashboard explains these applications, but Beta 16 does not silently configure them because they require storage, security, network, account, or legal decisions:
 
 - Nextcloud
 - Immich
@@ -109,7 +109,7 @@ If local-name discovery is unavailable, use `http://127.0.0.1` on the server or 
 
 ## Updates
 
-Beta 15 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
+Beta 16 does not silently update every container overnight. Updates remain deliberate. Review them first, then use the supplied update command:
 
 ```bash
 sudo /usr/lib/ayvatech-home-server-installer/scripts/update.sh
